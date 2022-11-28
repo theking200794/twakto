@@ -80,9 +80,16 @@ dependencies {
     // Compose
     implementation "androidx.compose.foundation:foundation:1.3.1"
     implementation "androidx.compose.material:material:1.3.1"
+    // Tooling support (Previews, etc.)
     implementation "androidx.compose.ui:ui-tooling:1.3.1"
     implementation "androidx.activity:activity-compose:1.7.0-alpha02"
     implementation 'androidx.ui:ui-framework:0.1.0-dev10'
+    implementation "androidx.compose.runtime:runtime:1.3.1"
+    implementation "androidx.compose.ui:ui:1.3.1"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.3.1"
+
+
+    implementation "androidx.compose.ui:ui-tooling-preview:1.3.1"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha04"
 
     // paging
@@ -94,6 +101,11 @@ dependencies {
     //dagger-hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    // Room components
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+    androidTestImplementation "androidx.room:room-testing:2.4.3"
 
 
     //Coil

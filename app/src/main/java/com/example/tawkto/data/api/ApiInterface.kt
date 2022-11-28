@@ -1,6 +1,6 @@
 package com.example.tawkto.data.api
 
-import com.example.tawkto.model.Users
+import com.example.tawkto.model.UsersItem
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -8,5 +8,5 @@ import retrofit2.http.Query
 interface ApiInterface {
 
     @GET("/users")
-    suspend fun getUsers(@Query("since")  num: Int): Response<Users>;
+    suspend fun getUsers(@Query("since")  num: Int): Response<List<UsersItem>>;
 }

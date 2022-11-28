@@ -1,6 +1,12 @@
 package com.example.tawkto.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "user")
 data class UsersItem(
+    @PrimaryKey
+    val id: Int,
     val avatar_url: String,
     val events_url: String,
     val followers_url: String,
@@ -8,7 +14,6 @@ data class UsersItem(
     val gists_url: String,
     val gravatar_id: String,
     val html_url: String,
-    val id: Int,
     val login: String,
     val node_id: String,
     val organizations_url: String,

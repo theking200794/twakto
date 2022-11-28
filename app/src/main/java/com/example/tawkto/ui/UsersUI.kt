@@ -16,12 +16,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
-import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.tawkto.R
 import com.example.tawkto.viewmodel.UsersViewModel
@@ -30,16 +28,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import coil.compose.SubcomposeAsyncImage
 
 
 @Composable
 fun UserList(viewModel: UsersViewModel) {
+    val scrollState = rememberLazyListState()
     val userList = viewModel.usersPager.collectAsLazyPagingItems()
 
-    LazyColumn {
+    LazyColumn(state = scrollState, ) {
         items(userList.itemCount) { index ->
-            userList[index]?.let { UserCard(user = it) }
+            userList[index]?.let { UserCard(user = it)
+            DefaultPreview(user = it)
+            }
         }
 
         when(userList.loadState.append){
@@ -51,7 +56,7 @@ fun UserList(viewModel: UsersViewModel) {
             }
             is LoadState.Error -> {
                 item {
-                    ErrorItem(message  = "Network error occured")
+                    ErrorItem(message  = userList.loadState.append.toString())
                 }
             }
         }
@@ -70,7 +75,7 @@ fun UserList(viewModel: UsersViewModel) {
             }
             is LoadState.Error -> {
                 item {
-                    ErrorItem(message  = "Network error occured")
+                    ErrorItem(message  = userList.loadState.refresh.toString())
                 }
             }
         }
@@ -89,28 +94,42 @@ fun UserCard(user: UsersItem) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
+            SubcomposeAsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(user.url)
+                    .data(user.avatar_url)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = stringResource(user.id),
+                loading = {
+                    CircularProgressIndicator()
+                },
+                contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(CircleShape)
                     .width(42.dp)
                     .height(42.dp)
             )
-            Text(
-                text = user.type,
-                fontSize = 24.sp,
-                modifier = Modifier
-                    .padding(start = 12.dp)
-                    .align(CenterVertically)
-            )
+
+            Column(modifier = Modifier
+                .padding(6.dp)) {
+                Text(
+                    text = user.login,
+                    fontSize = 24.sp,
+                    modifier = Modifier
+                        .padding(start = 12.dp, bottom = 4.dp,)
+
+                )
+                Text(
+                    text = "details",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                )
+
+            }
         }
     }
 }
@@ -143,16 +162,18 @@ fun ErrorItem(message: String) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Red)
-                .padding(8.dp)
+                .background(Color.Red),
+            horizontalArrangement = Arrangement.Center
+
         ) {
             Image(
                 modifier = Modifier
                     .clip(CircleShape)
                     .width(42.dp)
-                    .height(42.dp),
+                    .height(42.dp)
+                    .padding(top = 12.dp),
                 painter = painterResource(id = R.drawable.ic_error),
-                contentDescription = "",
+                contentDescription = "Mango",
                 colorFilter = ColorFilter.tint(Color.White)
             )
             Text(
@@ -167,9 +188,18 @@ fun ErrorItem(message: String) {
     }
 }
 
+class PreviewProvider() : PreviewParameterProvider<UsersItem> {
+    override val values = sequenceOf(UsersItem(0, "https://avatars.githubusercontent.com/u/1?v=4", "adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd",true,"adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd"), UsersItem(0, "https://avatars.githubusercontent.com/u/1?v=4", "adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd",true,"adfasdfsd","adfasdfsd","adfasdfsd","adfasdfsd",  ))
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview(@PreviewParameter(PreviewProvider::class)user: UsersItem) {
+    UserCard(user)
+}
+
 //@Preview
-//@PreviewParameter
 //@Composable
-//fun UserPreview(user: UsersItem) {
-//    UserCard(user)
+//fun DefaultPreview() {
+//    Text(text = "Hello!")
 //}
