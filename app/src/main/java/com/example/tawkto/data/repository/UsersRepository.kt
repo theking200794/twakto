@@ -7,6 +7,7 @@ import com.example.tawkto.data.api.ApiInterface
 import com.example.tawkto.data.db.UserDatabase
 import com.example.tawkto.model.UsersItem
 import com.example.tawkto.utils.NetworkUtils
+import kotlinx.coroutines.flow.Flow
 
 class UsersRepository(
     private val apiInterface: ApiInterface,
@@ -49,5 +50,9 @@ class UsersRepository(
             var userDao = userDatabase.userDao().getUsers()
             usersLiveData.postValue(userDao)
         }
+    }
+
+    fun searchLocalDatabase(query: String): Flow<List<UsersItem>> {
+        return userDatabase.userDao().searchLocalDatabase(query)
     }
 }
