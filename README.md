@@ -35,9 +35,10 @@ The sample app layers its presentation through MVVM presentation pattern.
 1. https://developer.android.com/jetpack/compose
 1. https://developer.android.com/jetpack/compose/state
 
+# Demo
+https://github.com/theking200794/twakto/blob/main/MVVM%20Paging%203%20Search.mp4
+
 
 <a href="https://www.buymeacoffee.com/theking200794" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-# Demo
-https://github.com/theking200794/twakto/blob/main/MVVM%20Paging%203%20Search.mp4
 
