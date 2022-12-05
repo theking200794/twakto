@@ -53,16 +53,20 @@ class MainActivity() : ComponentActivity() {
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = "main") {
             composable("main") {
-                UserList(viewModel, lifecycleOwner, navController)
+                DetailsScreen(user = "user", navController)
             }
-            composable(
-                "details/{user}",
-                arguments = listOf(navArgument("user") { type = NavType.StringType })
-            ) { backStackEntry ->
-                backStackEntry.arguments?.getString("user")?.let { user ->
-                    DetailsScreen(user = user, navController)
-                }
-            }
+
+//            composable("main") {
+//                UserList(viewModel, lifecycleOwner, navController)
+//            }
+//            composable(
+//                "details/{user}",
+//                arguments = listOf(navArgument("user") { type = NavType.StringType })
+//            ) { backStackEntry ->
+//                backStackEntry.arguments?.getString("user")?.let { user ->
+//                    DetailsScreen(user = user, navController)
+//                }
+//            }
         }
     }
 

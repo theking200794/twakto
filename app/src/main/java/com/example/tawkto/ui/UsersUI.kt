@@ -63,8 +63,6 @@ fun UserList(
 ) {
     val scrollState = rememberLazyListState()
     val userList = viewModel.usersPager.collectAsLazyPagingItems()
-    var filteredCountries: LiveData<List<UsersItem>>
-
 
     Column {
         SearchableListItem(viewModel.query)
@@ -84,11 +82,10 @@ fun UserList(
 //                            DefaultPreview(user = it)
                             }
                         }
-
                     } else {
                         // loading data on query from local db
                         viewModel.searchLocalDatabase(viewModel.query.value)
-                            .observe(lifecycleOwner, { users ->
+                            .observe(lifecycleOwner) { users ->
                                 users?.let {
                                     items(it.size) { index ->
                                         users[index]?.let {
@@ -106,7 +103,7 @@ fun UserList(
 //
 //                                    Log.d("zavi", "id: ${user.id}\n image: ${user.url}")
 //                                }
-                            })
+                            }
                     }
                     // for loading item and error handling
                     when (userList.loadState.append) {
