@@ -43,20 +43,23 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import com.example.tawkto.DetailsScreen
 import com.example.tawkto.R
 import com.example.tawkto.model.UsersItem
 import com.example.tawkto.viewmodel.UsersViewModel
-
+import com.google.gson.Gson
 
 @Composable
 fun UserList(
     viewModel: UsersViewModel,
     lifecycleOwner: LifecycleOwner,
+    navigator: NavController
 ) {
     val scrollState = rememberLazyListState()
     val userList = viewModel.usersPager.collectAsLazyPagingItems()
@@ -77,7 +80,7 @@ fun UserList(
                     if (searchedText.isEmpty()) {
                         items(userList.itemCount) { index ->
                             userList[index]?.let {
-                                UserCard(user = it, index)
+                                UserCard(user = it, index, navController = navigator)
 //                            DefaultPreview(user = it)
                             }
                         }
@@ -92,6 +95,7 @@ fun UserList(
                                             UserCard(
                                                 user = it,
                                                 index,
+                                                navController = navigator
                                             )
                                         }
                                     }
@@ -180,7 +184,7 @@ fun SearchableListItem(state: MutableState<String>) {
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun UserCard(user: UsersItem, index: Int) {
+fun UserCard(user: UsersItem, index: Int, navController: NavController) {
     val rainbowColorsBrush = remember {
         Brush.sweepGradient(
             listOf(
@@ -217,7 +221,24 @@ fun UserCard(user: UsersItem, index: Int) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
+                .clickable(onClick = {
+                    val userParsed = Gson().toJson(user).toString()
+                    navController.navigate("details/$userParsed"){
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo("main") {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                })
+                ,
             verticalAlignment = Alignment.CenterVertically
         ) {
             SubcomposeAsyncImage(
