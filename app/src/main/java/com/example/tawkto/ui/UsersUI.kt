@@ -223,8 +223,7 @@ fun UserCard(user: UsersItem, index: Int, navController: NavController) {
                 .fillMaxWidth()
                 .padding(8.dp)
                 .clickable(onClick = {
-                    val userParsed = Gson().toJson(user).toString()
-                    navController.navigate("details/$userParsed"){
+                    navController.navigate("details/${user.login}"){
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items

@@ -1,5 +1,7 @@
 package com.example.tawkto
 
+import android.graphics.Color.green
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,15 +22,15 @@ import com.google.gson.Gson
 fun DetailsScreen(
     user: String, navigator: NavHostController,
 ) {
-   val user = Gson().fromJson(user, UsersItem::class.java)
+    Log.d("zavi", user)
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.white))
+            .background(colorResource(id = R.color.black))
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = user.login,
+            text = user,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center,

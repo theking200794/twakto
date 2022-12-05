@@ -60,7 +60,7 @@ class MainActivity() : ComponentActivity() {
                 arguments = listOf(navArgument("user") { type = NavType.StringType })
             ) { backStackEntry ->
                 backStackEntry.arguments?.getString("user")?.let { user ->
-                    DetailsScreen(user = Gson().toJson(user).toString(), navController)
+                    DetailsScreen(user = user, navController)
                 }
             }
         }
