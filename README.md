@@ -30,7 +30,15 @@ The sample app layers its presentation through MVVM presentation pattern.
 * ViewModel - [AAC ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) that manages and set the state of the corresponding screen. Additionally, it intercepts UI events as callbacks and produces side-effects. The ViewModel is scoped to the lifetime of the corresponding screen composable in the backstack.
 * Model - Data source classes that retrieve content. 
 
+# References
+1. https://github.com/android/compose-samples
+1. https://developer.android.com/jetpack/compose
+1. https://developer.android.com/jetpack/compose/state
+
+# Demo
+
+![MVVM Paging 3 Search](https://user-images.githubusercontent.com/5977965/205609193-cc59bddd-6409-4b25-bf05-2bcf84410e3f.gif)
+
 
 <a href="https://www.buymeacoffee.com/theking200794" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
 

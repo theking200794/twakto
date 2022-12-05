@@ -12,32 +12,31 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
-class UserDataSource(private val repo: UsersRepository): PagingSource<Int, UsersItem>() {
-    val users : LiveData<List<UsersItem>>
+class UserDataSource(private val repo: UsersRepository) : PagingSource<Int, UsersItem>() {
+    val users: LiveData<List<UsersItem>>
         get() = repo.users
 
     override fun getRefreshKey(state: PagingState<Int, UsersItem>): Int? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
-            page?.prevKey?.minus(1)?:page?.nextKey?.plus(1)
+            page?.prevKey?.minus(1) ?: page?.nextKey?.plus(1)
         }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UsersItem> {
-
-       return try {
-           val nextPage = params.key?: 1
-           withContext(IO) {
-               repo.getUsers(nextPage)
-               }
-               LoadResult.Page(
-                   data = users.value!!,
-                   prevKey = if (nextPage == 1) null else nextPage - 1,
-                   nextKey = nextPage.plus(1)
-               )
-
-        }catch (e : Exception){
+        return try {
+            val nextPage = params.key ?: 1
+            withContext(IO) {
+                repo.getUsers(nextPage)
+            }
+            LoadResult.Page(
+                data = users.value!!,
+                prevKey = if (nextPage == 1) null else nextPage - 1,
+                nextKey = nextPage.plus(1)
+            )
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }

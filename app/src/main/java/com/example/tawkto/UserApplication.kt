@@ -1,6 +1,5 @@
 package com.example.tawkto
 
-import android.Manifest.permission.INTERNET
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
